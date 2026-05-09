@@ -1,0 +1,107 @@
+<?php
+$deals = [
+    [
+        'name' => 'Kitsu Cafe',
+        'cuisine' => 'All-day Cafe',
+        'area' => 'Bandra',
+        'discount' => 'BUY 1 GET 1',
+        'tag' => "Editor's Pick",
+        'rating' => '4.6',
+        'reviews' => '1,310',
+        'price' => 750,
+        'orig' => 1500,
+        'img' => 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=80',
+        'cat' => 'Cafes'
+    ],
+    [
+        'name' => "Toto's Garage",
+        'cuisine' => 'Bar & Pub',
+        'area' => 'Bandra West',
+        'discount' => '40% OFF',
+        'tag' => 'Tonight',
+        'rating' => '4.5',
+        'reviews' => '980',
+        'price' => 1800,
+        'orig' => 3000,
+        'img' => 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=900&q=80',
+        'cat' => 'Nightlife'
+    ],
+    [
+        'name' => 'U Tan Beach Resort',
+        'cuisine' => 'Beach Resort',
+        'area' => 'Alibaug',
+        'discount' => '₹2000 OFF',
+        'tag' => 'Weekend',
+        'rating' => '4.8',
+        'reviews' => '540',
+        'price' => 6499,
+        'orig' => 8499,
+        'img' => 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=900&q=80',
+        'cat' => 'Resorts'
+    ],
+    [
+        'name' => 'Olive Bar & Kitchen',
+        'cuisine' => 'Mediterranean',
+        'area' => 'Khar',
+        'discount' => '25% OFF',
+        'tag' => 'Brunch',
+        'rating' => '4.7',
+        'reviews' => '2,210',
+        'price' => 1500,
+        'orig' => 2000,
+        'img' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80',
+        'cat' => 'Restaurants'
+    ],
+    [
+        'name' => 'Antisocial',
+        'cuisine' => 'Live Music & Bar',
+        'area' => 'Khar',
+        'discount' => '1+1 COCKTAILS',
+        'tag' => 'Live Tonight',
+        'rating' => '4.4',
+        'reviews' => '1,620',
+        'price' => 950,
+        'orig' => 1900,
+        'img' => 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=900&q=80',
+        'cat' => 'Nightlife'
+    ],
+    [
+        'name' => 'Suzette Bakery',
+        'cuisine' => 'French Cafe',
+        'area' => 'Bandra',
+        'discount' => '20% OFF',
+        'tag' => 'Cafe Hop',
+        'rating' => '4.6',
+        'reviews' => '870',
+        'price' => 850,
+        'orig' => 1100,
+        'img' => 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=900&q=80',
+        'cat' => 'Cafes'
+    ],
+    [
+        'name' => 'Hot Air Balloon Ride',
+        'cuisine' => 'Adventure',
+        'area' => 'Lonavala',
+        'discount' => '₹1500 OFF',
+        'tag' => 'Bucket List',
+        'rating' => '4.9',
+        'reviews' => '320',
+        'price' => 5999,
+        'orig' => 7499,
+        'img' => 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?w=900&q=80',
+        'cat' => 'Experiences'
+    ],
+    [
+        'name' => 'Bayview Lounge',
+        'cuisine' => 'Rooftop Bar',
+        'area' => 'Colaba',
+        'discount' => '35% OFF',
+        'tag' => 'Rooftop',
+        'rating' => '4.6',
+        'reviews' => '1,430',
+        'price' => 1300,
+        'orig' => 2000,
+        'img' => 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=900&q=80',
+        'cat' => 'Nightlife'
+    ]
+];

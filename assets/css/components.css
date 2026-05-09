@@ -1,0 +1,121 @@
+/**
+ * Components Refinement - Handcrafted UX Pass
+ */
+
+/* Premium Buttons */
+.btn-primary {
+    background: var(--dark);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 12px rgba(11, 11, 18, 0.1);
+}
+
+.btn-primary:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(30, 115, 190, 0.25);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Luxury Cards */
+.deal-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.deal-card:hover {
+    border-color: transparent;
+    box-shadow: var(--shadow-premium);
+    transform: translateY(-8px);
+}
+
+.card-img-container {
+    position: relative;
+    overflow: hidden;
+    height: 280px;
+    border-radius: var(--radius-lg);
+    margin: 12px;
+}
+
+.deal-card:hover .card-img-container img {
+    transform: scale(1.1) rotate(1deg);
+}
+
+/* Category Grid */
+.cat-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-md);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--dark);
+}
+
+.cat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11,11,18,0.8) 0%, transparent 60%);
+    z-index: 1;
+}
+
+/* Inputs & Forms */
+.form-input {
+    width: 100%;
+    background: #F5F7FA;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-input:focus {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(30, 115, 190, 0.1);
+}
+
+/* Interactive Badges */
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-orange { background: var(--bg-cream); color: var(--accent); border: 1px solid rgba(247, 147, 30, 0.2); }
+
+/* Custom Tab Styling */
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    background: var(--dark);
+    color: white;
+    box-shadow: 0 10px 20px -10px var(--dark);
+}

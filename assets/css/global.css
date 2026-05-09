@@ -1,0 +1,98 @@
+/**
+ * Global Styles - Refined Handcrafted pass
+ */
+:root {
+    --primary: #1E73BE;
+    --primary-dark: #0F4C81;
+    --accent: #F7931E;
+    --accent-light: #FFA726;
+    --bg-cream: #FFF9F0;
+    --bg-white: #FFFFFF;
+    --dark: #0B0B12;
+    --muted: #5B6271;
+    --border: #E6EAF0;
+    
+    /* Spacing System */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 4rem;
+    
+    /* Border Radius */
+    --radius-sm: 0.75rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2.5rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 6px -1px rgba(11, 11, 18, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(11, 11, 18, 0.08);
+    --shadow-lg: 0 20px 25px -5px rgba(11, 11, 18, 0.1);
+    --shadow-premium: 0 30px 60px -12px rgba(11, 11, 18, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-cream);
+    color: var(--dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    letter-spacing: -0.03em;
+}
+
+.font-serif {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+}
+
+/* Custom Scrollbar - Minimal Polish */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-cream); }
+::-webkit-scrollbar-thumb { 
+    background: #D1D5DB; 
+    border-radius: 10px; 
+    border: 2px solid var(--bg-cream);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Selection */
+::selection {
+    background: var(--primary);
+    color: white;
+}
+
+/* Base Layout Helpers */
+.container-wide {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+@media (min-width: 768px) {
+    .container-wide { padding: 0 var(--space-xl); }
+}
+
+/* Loading Skeleton */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #f7f7f7 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
