@@ -30,4 +30,8 @@ const affiliateSchema = mongoose.Schema(
   }
 );
 
+affiliateSchema.index({ referralCode: 1 }, { unique: true });
+affiliateSchema.index({ status: 1, createdAt: -1 });
+affiliateSchema.index({ totalClicks: -1, totalConversions: -1 });
+
 module.exports = mongoose.model('Affiliate', affiliateSchema);

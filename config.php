@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$username = "u100196670_getondeal";   // your DB username
-$password = "GetOnDeal@123";       // replace with your actual password
-$database = "u100196670_getondeal";   // your DB name
+$host = getenv('DB_HOST') ?: "localhost";
+$username = getenv('DB_USER') ?: "";
+$password = getenv('DB_PASSWORD') ?: "";
+$database = getenv('DB_NAME') ?: "";
 
 $conn = new mysqli($host, $username, $password, $database);
 
@@ -11,5 +11,7 @@ $conn = new mysqli($host, $username, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+$conn->set_charset('utf8mb4');
 
 ?>

@@ -6,7 +6,16 @@
 
 // Referral Logic
 if (isset($_GET['ref'])) {
-    setcookie("referral_code", $_GET['ref'], time() + (86400 * 30), "/");
+    $ref = preg_replace('/[^a-zA-Z0-9_-]/', '', $_GET['ref']);
+    if ($ref !== '') {
+        setcookie("referral_code", $ref, [
+            'expires' => time() + (86400 * 30),
+            'path' => '/',
+            'httponly' => true,
+            'samesite' => 'Lax',
+            'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+        ]);
+    }
 }
 
 // Data Requirements
@@ -24,9 +33,29 @@ require_once __DIR__ . '/data/testimonials.php';
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Discover Mumbai's best cafes, restaurants, nightlife and villas with exclusive deals up to 50% off. Handpicked by locals, verified by us.">
+    <link rel="canonical" href="https://getondeal.com/">
     <meta property="og:title" content="GetOnDeal – Mumbai's Best Tables at Unbelievable Prices">
     <meta property="og:description" content="Join 200,000+ members saving on Mumbai's premium experiences.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getondeal.com/">
+    <meta property="og:image" content="https://getondeal.com/assets/images/og-cover.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GetOnDeal – Mumbai's Best Tables at Unbelievable Prices">
+    <meta name="twitter:description" content="Join 200,000+ members saving on Mumbai's premium experiences.">
+    <meta name="twitter:image" content="https://getondeal.com/assets/images/og-cover.jpg">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "GetOnDeal",
+      "url": "https://getondeal.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://getondeal.com/listings.php?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
     
     <!-- Preload Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -30,5 +30,6 @@ const reviewSchema = mongoose.Schema(
 
 // Prevent user from submitting more than one review per listing
 reviewSchema.index({ listingId: 1, userId: 1 }, { unique: true });
+reviewSchema.index({ listingId: 1, rating: -1, createdAt: -1 });
 
 module.exports = mongoose.model('Review', reviewSchema);

@@ -11,6 +11,7 @@
     <title>Admin Login | GetOnDeal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="../assets/js/config.js"></script>
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #F8F9FB; }
         .font-display { font-family: 'Bricolage Grotesque', sans-serif; }
@@ -64,6 +65,7 @@
         const loginForm = document.getElementById('login-form');
         const errorMsg = document.getElementById('error-msg');
         const loginBtn = document.getElementById('login-btn');
+        let csrfToken = null;
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -74,10 +76,21 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            const API_URL = window.GOD_CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+
             try {
-                const response = await fetch('http://localhost:5000/api/auth/login', {
+                if (!csrfToken) {
+                    const csrfResponse = await fetch(`${API_URL}/auth/csrf-token`, { credentials: 'include' });
+                    const csrfData = await csrfResponse.json();
+                    csrfToken = csrfData?.csrfToken || null;
+                }
+                const response = await fetch(`${API_URL}/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {})
+                    },
                     body: JSON.stringify({ email, password })
                 });
 

@@ -72,6 +72,9 @@ listingSchema.pre('save', function(next) {
   if (this.isModified('name')) {
     this.slug = this.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
   }
+  next();
+});
+
 // Compound index for filtering
 listingSchema.index({ status: 1, category: 1, isFeatured: -1 });
 listingSchema.index({ area: 1 });

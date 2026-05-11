@@ -2,7 +2,15 @@
  * GetOnDeal Admin Dashboard Logic
  */
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = window.GOD_CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+let csrfToken = null;
+
+const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
 // Auth Guard
 const checkAuth = () => {
@@ -26,10 +34,26 @@ const token = checkAuth();
 
 // API Helper
 const apiFetch = async (endpoint, options = {}) => {
+    if (!csrfToken) {
+        try {
+            const csrfResponse = await fetch(`${API_BASE}/auth/csrf-token`, { credentials: 'include' });
+            const csrfData = await csrfResponse.json();
+            csrfToken = csrfData?.csrfToken || null;
+        } catch (err) {
+            console.warn('CSRF bootstrap failed:', err);
+        }
+    }
+
+    const mergedHeaders = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),
+        ...(options.headers || {})
+    };
     const defaultOptions = {
+        credentials: 'include',
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            ...mergedHeaders
         }
     };
     
@@ -204,21 +228,22 @@ const routes = {
         const data = await apiFetch('/listings');
         const tbody = document.getElementById('listings-table-body');
         
-        if (data && data.length > 0) {
-            tbody.innerHTML = data.map(item => `
+        const items = Array.isArray(data) ? data : (data?.items || []);
+        if (items.length > 0) {
+            tbody.innerHTML = items.map(item => `
                 <tr class="border-b border-[#F0F2F5] hover:bg-gray-50 transition-colors group">
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                            <img src="${item.img}" class="w-10 h-10 rounded-lg object-cover">
+                            <img src="${escapeHtml(item.img)}" alt="${escapeHtml(item.name)}" class="w-10 h-10 rounded-lg object-cover">
                             <div>
-                                <p class="font-bold text-sm text-[#0B0B12]">${item.name}</p>
-                                <p class="text-[10px] text-[#5B6271] uppercase tracking-wider">${item.cuisine || 'Modern Indian'}</p>
+                                <p class="font-bold text-sm text-[#0B0B12]">${escapeHtml(item.name)}</p>
+                                <p class="text-[10px] text-[#5B6271] uppercase tracking-wider">${escapeHtml(item.cuisine || 'Modern Indian')}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-sm font-medium text-[#5B6271]">${item.category}</td>
-                    <td class="px-6 py-4 text-sm text-[#5B6271]">${item.area}</td>
-                    <td class="px-6 py-4 text-sm font-bold text-[#0B0B12]">₹${item.price}</td>
+                    <td class="px-6 py-4 text-sm font-medium text-[#5B6271]">${escapeHtml(item.category)}</td>
+                    <td class="px-6 py-4 text-sm text-[#5B6271]">${escapeHtml(item.area)}</td>
+                    <td class="px-6 py-4 text-sm font-bold text-[#0B0B12]">₹${Number(item.price || 0).toLocaleString('en-IN')}</td>
                     <td class="px-6 py-4">
                         <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-green-50 text-green-600">Active</span>
                     </td>

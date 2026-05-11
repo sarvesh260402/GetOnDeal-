@@ -2,9 +2,19 @@
 session_start();
 include 'config.php';
 
-$user_id = $_SESSION['user_id'];
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit();
+}
 
-$user = $conn->query("SELECT * FROM users WHERE id='$user_id'")->fetch_assoc();
+$user_id = (int) $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$stmt->close();
 
 echo json_encode($user);
 ?>

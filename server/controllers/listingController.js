@@ -1,10 +1,12 @@
 const Listing = require('../models/Listing');
+const { parsePagination, parseSort, paginateQuery } = require('../utils/pagination');
 
 // @desc    Get all listings
 // @route   GET /api/listings
 // @access  Public
 const getListings = async (req, res) => {
-  const { category, area, search } = req.query;
+  const { category, area, search, status, sortBy, order } = req.query;
+  const { page, limit } = parsePagination(req.query);
   let query = {};
 
   if (category && category !== 'All') {
@@ -16,12 +18,27 @@ const getListings = async (req, res) => {
   }
 
   if (search) {
-    query.title = { $regex: search, $options: 'i' };
+    query.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { description: { $regex: search, $options: 'i' } },
+      { venue: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  if (status) {
+    query.status = status;
   }
 
   try {
-    const listings = await Listing.find(query);
-    res.status(200).json(listings);
+    const safeSortBy = ['createdAt', 'updatedAt', 'price', 'rating', 'name'].includes(sortBy) ? sortBy : 'createdAt';
+    const result = await paginateQuery({
+      model: Listing,
+      query,
+      page,
+      limit,
+      sort: parseSort(safeSortBy, order),
+    });
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
