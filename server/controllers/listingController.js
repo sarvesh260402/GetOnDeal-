@@ -38,9 +38,17 @@ const getListings = async (req, res) => {
       limit,
       sort: parseSort(safeSortBy, order),
     });
-    res.status(200).json(result);
+    res.status(200).json({
+      success: true,
+      ...result
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch listings',
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+      requestId: req.requestId
+    });
   }
 };
 
@@ -51,11 +59,23 @@ const getListingById = async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);
     if (!listing) {
-      return res.status(404).json({ message: 'Listing not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Listing not found',
+        requestId: req.requestId
+      });
     }
-    res.status(200).json(listing);
+    res.status(200).json({
+      success: true,
+      data: listing
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch listing',
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+      requestId: req.requestId
+    });
   }
 };
 
@@ -68,9 +88,17 @@ const createListing = async (req, res) => {
       ...req.body,
       vendorId: req.user.id,
     });
-    res.status(201).json(listing);
+    res.status(201).json({
+      success: true,
+      data: listing
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ 
+      success: false,
+      message: 'Failed to create listing',
+      error: error.message,
+      requestId: req.requestId
+    });
   }
 };
 

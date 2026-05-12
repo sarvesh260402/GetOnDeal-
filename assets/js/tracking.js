@@ -27,28 +27,12 @@ const Tracking = {
 
     async handleAffiliateClick(listingId) {
         const refCode = localStorage.getItem('god_ref_code');
-        const API_URL = window.GOD_CONFIG ? window.GOD_CONFIG.API_BASE_URL : 'http://localhost:5000/api';
 
         try {
-            if (!this.csrfToken) {
-                const csrfRes = await fetch(`${API_URL}/auth/csrf-token`, { credentials: 'include' });
-                const csrfData = await csrfRes.json();
-                this.csrfToken = csrfData?.csrfToken || null;
-            }
-            // Log click in backend
-            const response = await fetch(`${API_URL}/track/click`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    ...(this.csrfToken ? { 'X-CSRF-Token': this.csrfToken } : {})
-                },
-                body: JSON.stringify({ listingId, refCode })
-            });
+            // Log click in backend using global api utility
+            const data = await api.post('/track/click', { listingId, refCode });
 
-            const data = await response.json();
-
-            if (data.targetUrl) {
+            if (data && data.targetUrl) {
                 // Redirect to affiliate link
                 window.open(data.targetUrl, '_blank');
             } else {
@@ -56,8 +40,8 @@ const Tracking = {
             }
         } catch (err) {
             console.error('Tracking Error:', err);
-            // Fallback: just open a default link if API fails
-            alert('Redirecting to partner site...');
+            // Fallback: the api utility already handles error logging/toast
+            alert('Something went wrong. Please try again.');
         }
     }
 };

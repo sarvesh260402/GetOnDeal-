@@ -19,35 +19,51 @@ const trackClick = async (req, res) => {
 
     let affiliate = null;
     if (refCode) {
-      affiliate = await Affiliate.findOne({ referralCode: refCode });
-      if (affiliate) {
-        // Increment affiliate clicks
-        affiliate.totalClicks += 1;
-        await affiliate.save();
+      try {
+        affiliate = await Affiliate.findOne({ referralCode: refCode });
+        if (affiliate) {
+          // Increment affiliate clicks
+          affiliate.totalClicks += 1;
+          await affiliate.save();
+        }
+      } catch (affError) {
+        console.error(`Affiliate update error: ${affError.message}`);
+        // Non-blocking: continue even if affiliate update fails
       }
     }
 
     const clickId = generateClickId();
     
     // Create Click Log
-    await Click.create({
-      clickId,
-      listingId,
-      affiliateId: affiliate ? affiliate._id : null,
-      ip: req.ip,
-      userAgent: req.headers['user-agent'],
-      referer: req.headers['referer']
-    });
+    try {
+      await Click.create({
+        clickId,
+        listingId,
+        affiliateId: affiliate ? affiliate._id : null,
+        ip: req.ip,
+        userAgent: req.headers['user-agent'],
+        referer: req.headers['referer']
+      });
+    } catch (clickError) {
+      console.error(`Click logging error: ${clickError.message}`);
+      // If we can't log, we should still try to redirect the user
+    }
 
     // Return the tracking info and target URL
     res.status(200).json({
+      success: true,
       clickId,
       targetUrl: listing.affiliateUrl || '#',
       listingName: listing.name
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: 'Tracking failed', 
+      error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error.message,
+      requestId: req.requestId 
+    });
   }
 };
 

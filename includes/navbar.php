@@ -30,13 +30,13 @@
         </div>
 
         <!-- Mobile Toggle -->
-        <button id="menu-toggle" class="lg:hidden p-2 rounded-lg text-[#1A1A1A]" aria-label="Open menu">
+        <button id="menu-toggle" class="lg:hidden p-2 rounded-lg text-[#1A1A1A]" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>
         </button>
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="lg:hidden bg-white border-t border-[#E6EAF0] px-5 py-4 space-y-3">
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-[#E6EAF0] px-5 py-4 space-y-3" role="navigation" aria-hidden="true">
         <?php foreach($navLinks as $link): ?>
         <a href="#deals" class="block text-sm font-medium text-[#1A1A1A] py-2"><?= $link ?></a>
         <?php endforeach; ?>
@@ -45,4 +45,4 @@
             <a href="#download" class="btn-orange text-sm" style="padding:0.5rem 1rem;">Get the App</a>
         </div>
     </div>
-</header>
+</nav>

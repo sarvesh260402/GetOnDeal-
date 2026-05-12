@@ -26,4 +26,11 @@ class ApiClient {
         return self::get("/listings?" . $query);
     }
 }
+
+/**
+ * Global helper function for backward compatibility or ease of use
+ */
+function fetchFromApi($endpoint) {
+    return ApiClient::get($endpoint);
+}
 ?>

@@ -1,18 +1,15 @@
 <!-- FEATURED DEALS -->
 <?php 
-require_once __DIR__ . '/../data/deals.php'; 
 require_once __DIR__ . '/api_helper.php';
 
-$apiDeals = fetchFromApi('/listings');
-$displayDeals = (!empty($apiDeals)) ? $apiDeals : $deals;
+$apiRes = fetchFromApi('/listings?isFeatured=true');
+$displayDeals = (isset($apiRes['success']) && $apiRes['success'] && !empty($apiRes['items'])) ? $apiRes['items'] : [];
 ?>
 <section id="deals" class="py-20 sm:py-28 cream-bg">
     <div class="max-w-7xl mx-auto px-5 sm:px-8">
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-            <div class="max-w-2xl">
-                <p class="text-xs font-bold text-[#F7931E] uppercase tracking-[0.25em] mb-3">— This Week</p>
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-10 mb-16">
             <div class="max-w-2xl animate-on-scroll">
+                <p class="text-xs font-bold text-[#F7931E] uppercase tracking-[0.25em] mb-3">— This Week</p>
                 <h2 class="text-4xl sm:text-5xl font-extrabold text-[#0B0B12] leading-[1.1] mb-6">
                     Mumbai's <span class="text-[#1E73BE]">Exclusive</span> Deals.
                 </h2>
@@ -33,11 +30,8 @@ $displayDeals = (!empty($apiDeals)) ? $apiDeals : $deals;
         <!-- Cards -->
         <div id="deals-track" class="flex gap-5 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4 -mx-5 sm:-mx-8 px-5 sm:px-8">
             <?php foreach($displayDeals as $i=>$d): ?>
-            <div class="deal-card group min-w-[300px] sm:min-w-[340px] snap-start animate-on-scroll" data-cat="<?= $d['cat'] ?>">
-                <div class="relative h-60 overflow-hidden">
-                    <img alt="<?= htmlspecialchars(strip_tags($d['name'])) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="<?= $d['img'] ?>" loading="lazy">
-            <div class="deal-card min-w-[320px] sm:min-w-[380px] snap-start animate-on-scroll" data-cat="<?= $d['cat'] ?>">
-                <div class="card-img-container">
+            <div class="deal-card min-w-[320px] sm:min-w-[380px] snap-start animate-on-scroll" data-cat="<?= $d['category'] ?>">
+                <div class="card-img-container relative h-60 overflow-hidden rounded-2xl mb-4">
                     <img alt="<?= htmlspecialchars($d['name']) ?>" 
                          class="w-full h-full object-cover transition-transform duration-1000 ease-out" 
                          src="<?= $d['img'] ?>" 

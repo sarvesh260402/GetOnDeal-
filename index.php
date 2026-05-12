@@ -18,10 +18,7 @@ if (isset($_GET['ref'])) {
     }
 }
 
-// Data Requirements
-require_once __DIR__ . '/data/deals.php';
-require_once __DIR__ . '/data/categories.php';
-require_once __DIR__ . '/data/testimonials.php';
+// Data requirements - Now handled via API/MongoDB
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,11 +109,11 @@ require_once __DIR__ . '/data/testimonials.php';
     <?php require_once 'includes/footer.php'; ?>
 
     <!-- Performance-optimized JS -->
+    <script src="assets/js/app.js" defer></script>
     <script src="assets/js/tracking.js" defer></script>
     <script src="assets/js/mobile-menu.js" defer></script>
     <script src="assets/js/countdown.js" defer></script>
     <script src="assets/js/filters.js" defer></script>
     <script src="assets/js/slider.js" defer></script>
-    <script src="assets/js/app.js" defer></script>
 </body>
 </html>

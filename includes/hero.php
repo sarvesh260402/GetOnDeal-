@@ -1,13 +1,3 @@
-<!-- HERO SECTION -->
-<section class="hero-bg relative overflow-hidden">
-    <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-[#FFA726]/20 blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-40 -left-32 w-[28rem] h-[28rem] rounded-full bg-[#1E73BE]/12 blur-3xl pointer-events-none"></div>
-    <div class="absolute top-32 right-10 w-32 h-32 dot-pattern opacity-60 hidden lg:block"></div>
-
-    <div class="relative max-w-7xl mx-auto px-5 sm:px-8 pt-10 pb-16 lg:pt-16 lg:pb-24">
-        <!-- Eyebrow -->
-        <div class="flex items-center justify-between flex-wrap gap-3 mb-10 lg:mb-14">
-            <div class="inline-flex items-center gap-2 bg-white border border-[#E6EAF0] px-3 py-1.5 rounded-full text-xs font-medium text-[#0B0B12]">
 <section class="relative min-h-[90vh] flex items-center pt-24 pb-20 overflow-hidden bg-[#FFF9F0]">
     <!-- Background Elements -->
     <div class="absolute inset-0 z-0">
@@ -30,8 +20,8 @@
                 <!-- Search Bar -->
                 <div class="mt-8 bg-white rounded-[1.5rem] p-2 shadow-[0_25px_70px_-30px_rgba(15,76,129,0.45)] border border-[#E6EAF0] flex flex-col sm:flex-row gap-2">
                     <div class="flex items-center gap-2 px-4 sm:border-r sm:border-[#E6EAF0] py-3 sm:py-0 flex-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E73BE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-                        <select class="bg-transparent outline-none text-sm font-medium text-[#0B0B12] w-full cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E73BE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                        <select aria-label="Select City" class="bg-transparent outline-none text-sm font-medium text-[#0B0B12] w-full cursor-pointer">
                             <option selected>Mumbai</option>
                             <option>Bandra</option>
                             <option>Lower Parel</option>
@@ -41,10 +31,10 @@
                         </select>
                     </div>
                     <div class="flex items-center gap-2 px-4 py-3 sm:py-0 flex-[2]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6271" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
-                        <input placeholder="Try 'rooftop brunch under ₹999'" class="bg-transparent outline-none text-sm text-[#0B0B12] w-full placeholder-[#9AA3B2]" type="text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6271" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+                        <input aria-label="Search for deals" placeholder="Try 'rooftop brunch under ₹999'" class="bg-transparent outline-none text-sm text-[#0B0B12] w-full placeholder-[#9AA3B2]" type="text">
                     </div>
-                    <button class="btn-orange text-sm justify-center" style="padding:0.875rem 1.25rem;">Find deals <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+                    <button class="btn-orange text-sm justify-center" style="padding:0.875rem 1.25rem;">Find deals <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
                 </div>
 
                 <!-- Quick Chips -->

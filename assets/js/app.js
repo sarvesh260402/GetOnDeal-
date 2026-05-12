@@ -27,6 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
 // Global API utilities
 const api = {
     csrfToken: null,
+    showLoader() {
+        const loader = document.getElementById('global-loader');
+        if (loader) loader.classList.remove('hidden');
+    },
+    hideLoader() {
+        const loader = document.getElementById('global-loader');
+        if (loader) loader.classList.add('hidden');
+    },
+    showError(message) {
+        // Generic error toast logic
+        console.error('API Error:', message);
+    },
     async ensureCsrfToken() {
         if (this.csrfToken) return this.csrfToken;
         try {
@@ -39,15 +51,21 @@ const api = {
         return this.csrfToken;
     },
     async get(endpoint) {
+        this.showLoader();
         try {
             const res = await fetch(`${API_URL}${endpoint}`, { credentials: 'include' });
-            return await res.json();
+            const data = await res.json();
+            if (data.success === false) throw new Error(data.message || 'API Error');
+            return data;
         } catch (err) {
-            console.error(`API Get Error (${endpoint}):`, err);
+            this.showError(err.message);
             return null;
+        } finally {
+            this.hideLoader();
         }
     },
     async post(endpoint, data, token = null) {
+        this.showLoader();
         try {
             const csrfToken = await this.ensureCsrfToken();
             const headers = { 'Content-Type': 'application/json' };
@@ -59,10 +77,14 @@ const api = {
                 credentials: 'include',
                 body: JSON.stringify(data)
             });
-            return await res.json();
+            const result = await res.json();
+            if (result.success === false) throw new Error(result.message || 'API Error');
+            return result;
         } catch (err) {
-            console.error(`API Post Error (${endpoint}):`, err);
+            this.showError(err.message);
             return null;
+        } finally {
+            this.hideLoader();
         }
     }
 };

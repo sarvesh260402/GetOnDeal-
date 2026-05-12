@@ -7,7 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (menuToggle && mobileMenu) {
         menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            mobileMenu.classList.toggle('hidden');
+            menuToggle.setAttribute('aria-expanded', (!isOpen).toString());
+            mobileMenu.setAttribute('aria-hidden', isOpen.toString());
         });
     }
 });

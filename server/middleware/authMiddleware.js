@@ -18,18 +18,30 @@ const protect = async (req, res, next) => {
       // Get user from the token
       req.user = await User.findById(decoded.id).select('-password');
       if (!req.user) {
-        return res.status(401).json({ message: 'Not authorized' });
+        return res.status(401).json({ 
+          success: false,
+          message: 'Not authorized - User not found',
+          requestId: req.requestId
+        });
       }
 
       return next();
     } catch (error) {
       console.error(error);
-      return res.status(401).json({ message: 'Not authorized' });
+      return res.status(401).json({ 
+        success: false,
+        message: 'Not authorized - Token invalid',
+        requestId: req.requestId
+      });
     }
   }
 
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized, no token' });
+    return res.status(401).json({ 
+      success: false,
+      message: 'Not authorized, no token',
+      requestId: req.requestId
+    });
   }
 };
 
@@ -37,7 +49,9 @@ const authorize = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
+        success: false,
         message: `User role ${req.user.role} is not authorized to access this route`,
+        requestId: req.requestId
       });
     }
     next();

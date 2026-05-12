@@ -78,6 +78,9 @@ listingSchema.pre('save', function(next) {
 // Compound index for filtering
 listingSchema.index({ status: 1, category: 1, isFeatured: -1 });
 listingSchema.index({ area: 1 });
+listingSchema.index({ price: 1 });
+listingSchema.index({ rating: -1 });
+listingSchema.index({ createdAt: -1 });
 // Text index for advanced search
 listingSchema.index({ name: 'text', description: 'text', venue: 'text' });
 

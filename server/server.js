@@ -18,11 +18,22 @@ connectDB();
 const app = express();
 
 // Security Hardening
-// Security Hardening
-app.use(helmet()); 
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://*"],
+      connectSrc: ["'self'", "https://*"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+})); 
+
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
     
     const envOrigins = process.env.CORS_ALLOWED_ORIGINS
@@ -32,7 +43,7 @@ app.use(cors({
       'http://localhost:5000',
       'http://localhost:3000',
       'http://localhost:8000',
-      'http://127.0.0.1:5500', // VS Code Live Server default
+      'http://127.0.0.1:5500',
       'http://localhost:5500'
     ];
     const allowedOrigins = envOrigins.length > 0 ? envOrigins : defaultOrigins;
@@ -48,14 +59,19 @@ app.use(cors({
 
 // Rate Limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again after 15 minutes'
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many requests from this IP, please try again after 15 minutes'
+  }
 });
 app.use('/api/', limiter);
 
 // Body parser
-app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
+app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use(requestLogger);
 app.use(csrfProtection);
@@ -82,7 +98,13 @@ app.use('/api/categories', categoryRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'GetOnDeal API is running' });
+  res.status(200).json({ 
+    success: true,
+    status: 'OK', 
+    message: 'GetOnDeal API is running',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV
+  });
 });
 
 app.use(notFound);
@@ -90,6 +112,19 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`);
+  // Close server & exit process
+  server.close(() => process.exit(1));
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.log(`Uncaught Exception: ${err.message}`);
+  process.exit(1);
 });

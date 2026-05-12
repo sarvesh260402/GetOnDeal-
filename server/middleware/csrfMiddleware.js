@@ -26,11 +26,24 @@ const csrfProtection = (req, res, next) => {
   const cookieToken = req.cookies?.[CSRF_COOKIE];
   const headerToken = req.headers[CSRF_HEADER];
 
-  // Backward compatible mode: if token is not sent yet, skip once.
-  if (!cookieToken && !headerToken) return next();
+  // In production, strictly enforce CSRF.
+  if (process.env.NODE_ENV === 'production' && (!cookieToken || !headerToken)) {
+    return res.status(403).json({ 
+      success: false,
+      message: 'CSRF token missing',
+      requestId: req.requestId 
+    });
+  }
+
+  // Backward compatible mode for dev: if token is not sent yet, skip once.
+  if (process.env.NODE_ENV !== 'production' && !cookieToken && !headerToken) return next();
 
   if (!cookieToken || !headerToken || cookieToken !== headerToken) {
-    return res.status(403).json({ message: 'Invalid CSRF token' });
+    return res.status(403).json({ 
+      success: false,
+      message: 'Invalid CSRF token',
+      requestId: req.requestId
+    });
   }
 
   return next();
