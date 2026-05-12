@@ -2,7 +2,7 @@
  * GetOnDeal Admin Dashboard Logic
  */
 
-const API_BASE = window.GOD_CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE = window.GOD_CONFIG?.API_BASE_URL || 'https://getondeal-app.onrender.com/api';
 let csrfToken = null;
 
 const escapeHtml = (value) => String(value ?? '')

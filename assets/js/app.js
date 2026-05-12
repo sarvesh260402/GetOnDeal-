@@ -2,7 +2,7 @@
  * Global App Logic
  * Intersection Observer for Fade-up animations
  */
-const API_URL = window.GOD_CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+const API_URL = window.GOD_CONFIG?.API_BASE_URL || 'https://getondeal-app.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = {

@@ -13,7 +13,7 @@ const GOD_CONFIG = {
         if (this.env.API_BASE_URL) return this.env.API_BASE_URL;
         return this.isLocal 
             ? 'http://localhost:5000/api' 
-            : 'https://api.getondeal.com/api'; // Replace with production URL when ready
+            : 'https://getondeal-app.onrender.com/api'; // Replace with production URL when ready
     },
 
     // Tracking Configuration

@@ -76,7 +76,7 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const API_URL = window.GOD_CONFIG?.API_BASE_URL || 'http://localhost:5000/api';
+            const API_URL = window.GOD_CONFIG?.API_BASE_URL || 'https://getondeal-app.onrender.com/api';
 
             try {
                 if (!csrfToken) {

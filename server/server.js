@@ -6,8 +6,8 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 const requestLogger = require('./middleware/requestLogger');
-const { csrfProtection } = require('./middleware/csrfMiddleware');
-const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const path = require('path');
+const app = express();
 
 // Load env vars
 dotenv.config();
@@ -15,7 +15,16 @@ dotenv.config();
 // Connect to database
 connectDB();
 
-const app = express();
+// Serve static frontend assets
+app.use(express.static(path.join(__dirname, '..')));
+
+// Fallback to index.html for root and unmatched routes
+app.get(['/', '/index.html'], (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+const { csrfProtection } = require('./middleware/csrfMiddleware');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Security Hardening
 app.use(helmet({
@@ -30,12 +39,12 @@ app.use(helmet({
     },
   },
   crossOriginEmbedderPolicy: false,
-})); 
+}));
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    
+
     const envOrigins = process.env.CORS_ALLOWED_ORIGINS
       ? process.env.CORS_ALLOWED_ORIGINS.split(',').map((item) => item.trim()).filter(Boolean)
       : [];
@@ -47,7 +56,7 @@ app.use(cors({
       'http://localhost:5500'
     ];
     const allowedOrigins = envOrigins.length > 0 ? envOrigins : defaultOrigins;
-    
+
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
@@ -98,9 +107,9 @@ app.use('/api/categories', categoryRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     success: true,
-    status: 'OK', 
+    status: 'OK',
     message: 'GetOnDeal API is running',
     timestamp: new Date().toISOString(),
     env: process.env.NODE_ENV

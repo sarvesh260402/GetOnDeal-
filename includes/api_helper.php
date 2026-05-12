@@ -3,7 +3,7 @@
  * Advanced API Helper for GetOnDeal CMS
  */
 class ApiClient {
-    private static $baseUrl = getenv('API_BASE_URL') ?: "http://localhost:5000/api";
+private static $baseUrl = getenv('API_BASE_URL') ?: 'https://getondeal-app.onrender.com/api';
 
     public static function get($endpoint) {
         $ch = curl_init();
